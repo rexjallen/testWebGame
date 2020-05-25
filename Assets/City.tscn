@@ -15,10 +15,10 @@ tile_data = PoolIntArray( 786452, 0, 0, 786453, 1, 0, 786454, 1, 0, 786455, 1, 0
 position = Vector2( 118, 148 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_left = -634.956
-margin_top = 762.055
-margin_right = -486.956
-margin_bottom = 789.055
+margin_left = -641.432
+margin_top = 945.525
+margin_right = -493.432
+margin_bottom = 972.525
 rect_pivot_offset = Vector2( 240.312, 0 )
 text = "GAME OVER NOOB"
 __meta__ = {
@@ -26,12 +26,24 @@ __meta__ = {
 }
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]
-margin_left = 806.902
-margin_top = 753.421
-margin_right = 954.902
-margin_bottom = 780.421
+margin_left = 899.716
+margin_top = 971.426
+margin_right = 1047.72
+margin_bottom = 998.426
 rect_pivot_offset = Vector2( 240.312, 0 )
 text = "GAME OVER NOOB"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+margin_left = 71.0
+margin_top = 71.0
+margin_right = 252.0
+margin_bottom = 103.0
+rect_pivot_offset = Vector2( 240.312, 0 )
+text = "Click to Start
+WASD / SPACE to move"
 __meta__ = {
 "_edit_use_anchors_": false
 }
