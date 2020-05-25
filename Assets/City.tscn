@@ -13,5 +13,25 @@ tile_data = PoolIntArray( 786452, 0, 0, 786453, 1, 0, 786454, 1, 0, 786455, 1, 0
 
 [node name="Char" parent="." instance=ExtResource( 2 )]
 position = Vector2( 118, 148 )
-mode = 2
-gravity_scale = 4.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = -634.956
+margin_top = 762.055
+margin_right = -486.956
+margin_bottom = 789.055
+rect_pivot_offset = Vector2( 240.312, 0 )
+text = "GAME OVER NOOB"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+margin_left = 806.902
+margin_top = 753.421
+margin_right = 954.902
+margin_bottom = 780.421
+rect_pivot_offset = Vector2( 240.312, 0 )
+text = "GAME OVER NOOB"
+__meta__ = {
+"_edit_use_anchors_": false
+}

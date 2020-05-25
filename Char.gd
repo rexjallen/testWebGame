@@ -38,13 +38,16 @@ func _process(delta):
 	#move left/right
 	if Input.is_action_pressed("ui_left"):
 		movement_input = -1
+		$AnimatedSprite.flip_h = true
 	elif Input.is_action_pressed("ui_right"):
 		movement_input = 1
+		$AnimatedSprite.flip_h = false
 	else:
 		movement_input = 0
 
 	if(movement_input):
 		movement.x += movement_input*acceleration*delta
+		$AnimatedSprite.play("walk")
 		if(abs(movement.x) > maxSpeed):
 			print("moving")
 		else:
@@ -54,6 +57,7 @@ func _process(delta):
 		movement.x -= movement.normalized().x*deceleration*delta
 		print("stopping")
 	else:
+		$AnimatedSprite.stop()
 		movement.x = 0
 		print("stopped")
 
