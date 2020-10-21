@@ -5,7 +5,7 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 export var jumpStrength = 125
-export var maxSpeed = 500
+export var maxSpeed = 200
 export var acceleration = 200
 export var deceleration = 100
 
@@ -56,35 +56,16 @@ func _physics_process(delta):
 				velocity.x = maxSpeed*movement_input
 	elif abs(velocity.x) > deceleration*delta:
 		velocity.x -= sign(velocity.x)*deceleration*delta
-#		print("stopping")
 	else:
-		$AnimatedSprite.stop()
-		velocity.x = 0
-#		print("stopped")
+		_stop_walking()
 
-	#get left/right input
-#	if Input.is_action_pressed(("ui_left")):
-#		movement_norm.x = -1
-#		#animate
-#		$AnimatedSprite.play("walk") 
-#	elif Input.is_action_pressed("ui_right"):
-#		movement_norm.x = 1
-#		#animate
-#		$AnimatedSprite.play("walk") 
-#	else:
-#		movement_norm.x = 0
-#	#accelrate left or right
-#	if (abs(movement_norm.x) > 0) and abs(movement.x) < maxSpeed : 
-#		movement.x += movement_norm.x*acceleration*delta
-#	elif(abs(movement_norm.x) > 0) :
-#		movement.x = movement.normalized().x*maxSpeed
-#	else:
-#		#slow Down
-#		if abs(movement.x) > abs((-movement.normalized().x)*deceleration*delta):
-#			movement.x += (-movement.normalized().x)*deceleration*delta
-#		else:
-#			movement.x = 0
-#			$AnimatedSprite.stop()
-	
-	self.move_and_slide(velocity)
+	if(velocity.length() > 0):
+		self.move_and_slide(velocity)
+		for i in self.get_slide_count():
+			var collision = self.get_slide_collision(i)
+			if abs(collision.get_normal().x) == 1:
+				_stop_walking()
 
+func _stop_walking():
+	$AnimatedSprite.stop()
+	velocity.x = 0
