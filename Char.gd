@@ -5,12 +5,12 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 export var jumpStrength = 125
-export var maxSpeed = 100
-export var acceleration = .1
-export var deceleration = 2000
+export var maxSpeed = 500
+export var acceleration = 200
+export var deceleration = 100
 
 var movement_norm = Vector2()
-var movement = Vector2()
+var velocity = Vector2()
 var jumping = false
 
 
@@ -27,13 +27,16 @@ func _input(event):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	pass
+
+func _physics_process(delta):
 	var movement_input = 0 #hodler for left and right input
 
 	#handle jumping
 	if(Input.is_action_just_pressed("jump")) and (self.test_move(self.transform,Vector2(0,1))):
-		movement.y=-jumpStrength #initial speed, no ramp up (yet)
+		velocity.y = -jumpStrength #initial speed, no ramp up (yet)
 	elif not (self.test_move(self.transform,Vector2(0,1))):
-		movement.y=movement.y+gravity_magnitude*delta
+		velocity.y = velocity.y + gravity_magnitude*delta
 
 	#move left/right
 	if Input.is_action_pressed("ui_left"):
@@ -46,20 +49,18 @@ func _process(delta):
 		movement_input = 0
 
 	if(movement_input):
-		movement.x += movement_input*acceleration*delta
 		$AnimatedSprite.play("walk")
-		if(abs(movement.x) > maxSpeed):
-			print("moving")
-		else:
-			print("at max speed ",abs(movement.x)," ",maxSpeed)
-			movement.x = maxSpeed*movement_input
-	elif abs(movement.x) > deceleration*delta:
-		movement.x -= movement.normalized().x*deceleration*delta
-		print("stopping")
+		if(abs(velocity.x) < maxSpeed):
+			velocity.x += movement_input*acceleration*delta
+			if(abs(velocity.x) >= maxSpeed):
+				velocity.x = maxSpeed*movement_input
+	elif abs(velocity.x) > deceleration*delta:
+		velocity.x -= sign(velocity.x)*deceleration*delta
+#		print("stopping")
 	else:
 		$AnimatedSprite.stop()
-		movement.x = 0
-		print("stopped")
+		velocity.x = 0
+#		print("stopped")
 
 	#get left/right input
 #	if Input.is_action_pressed(("ui_left")):
@@ -85,5 +86,5 @@ func _process(delta):
 #			movement.x = 0
 #			$AnimatedSprite.stop()
 	
-	self.move_and_slide(movement)
+	self.move_and_slide(velocity)
 
