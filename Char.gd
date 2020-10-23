@@ -6,8 +6,8 @@ extends KinematicBody2D
 # var b = "text"
 export var jumpStrength = 125
 export var maxSpeed = 200
-export var acceleration = 200
-export var deceleration = 100
+export var acceleration = 400
+export var deceleration = 500
 
 var movement_norm = Vector2()
 var velocity = Vector2()
@@ -30,12 +30,12 @@ func _process(delta):
 	pass
 
 func _physics_process(delta):
-	var movement_input = 0 #hodler for left and right input
+	var movement_input = Vector2.ZERO #hodler for left and right input
 
 	#handle jumping
-	if(Input.is_action_just_pressed("jump")) and (self.test_move(self.transform,Vector2(0,1))):
+	if(Input.is_action_just_pressed("jump")) and (self.test_move(self.transform,Vector2(0,velocity.y))):
 		velocity.y = -jumpStrength #initial speed, no ramp up (yet)
-	elif not (self.test_move(self.transform,Vector2(0,1))):
+	elif not (self.test_move(self.transform,Vector2(0,velocity.y))):
 		velocity.y = velocity.y + gravity_magnitude*delta
 
 	#move left/right
@@ -49,8 +49,8 @@ func _physics_process(delta):
 		movement_input = 0
 
 	if(movement_input):
-		$AnimatedSprite.play("walk")
-		if(abs(velocity.x) < maxSpeed):
+		$AnimatedSprite.play("walk") #whats the cost for calling this every time?
+		if(((-1 == movement_input) && (velocity.x > -maxSpeed)) || ((1 == movement_input)&&(movement_input < maxSpeed))):
 			velocity.x += movement_input*acceleration*delta
 			if(abs(velocity.x) >= maxSpeed):
 				velocity.x = maxSpeed*movement_input
@@ -59,6 +59,7 @@ func _physics_process(delta):
 	else:
 		_stop_walking()
 
+#check to see if the character is against a wall.
 	if(velocity.length() > 0):
 		self.move_and_slide(velocity)
 		for i in self.get_slide_count():
