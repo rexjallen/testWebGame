@@ -41,9 +41,8 @@ jump={
 
 [physics]
 
-2d/default_gravity=120
+2d/default_gravity=500
 
 [rendering]
 
 quality/2d/use_pixel_snap=true
-environment/default_environment="res://default_env.tres"
